@@ -16,6 +16,9 @@ enum SampleModelControls
 	BODY_Y,
 	BODY_Z,
 	BODY_ROTATION,	//
+	BODY_PX,	//the x length of body
+	BODY_PY,
+	BODY_PZ,
 
 	UPPER_WING_PX,
 	UPPER_WING_PY,

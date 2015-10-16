@@ -46,6 +46,7 @@ void SampleModel::draw()
 	setDiffuseColor(COLOR_RED);
 
 	glPushMatrix();
+	glTranslated(VAL(BODY_PX), VAL(BODY_PY), VAL(BODY_PZ));
 	glRotated(VAL(BODY_ROTATION), 0.0, 0.0, 1.0);
 	drawEllipsoid(VAL(BODY_X), VAL(BODY_Y), VAL(BODY_Z));
 
@@ -119,13 +120,25 @@ void SampleModel::draw()
 				glPopMatrix();
 
 
-			glRotated(VAL(LOWER_TAIL_ROTATION2), 0, 1, 0);
-			drawSphere(0.5);
-			drawCylinder(2.5, 0, 0.3);
-			glRotated(120, 0, 1, 0);
-			drawCylinder(2.5, 0, 0.3);
-			glRotated(120, 0, 1, 0);
-			drawCylinder(2.5, 0, 0.3);
+				glPushMatrix();
+				glRotated(90, 0, 1, 0);
+				glRotated(VAL(OARS_ROTATION), 0, 1, 0);
+				drawCylinder(2.5, 0, 0.5);
+				glPopMatrix();
+
+				glPushMatrix();
+				glRotated(90, 0, 1, 0);
+				glRotated(120, 0, 1, 0);
+				glRotated(VAL(OARS_ROTATION), 0, 1, 0);
+				drawCylinder(2.5, 0, 0.5);
+				glPopMatrix();
+
+				glPushMatrix();
+				glRotated(90, 0, 1, 0);
+				glRotated(240, 0, 1, 0);
+				glRotated(VAL(OARS_ROTATION), 0, 1, 0);
+				drawCylinder(2.5, 0, 0.5);
+				glPopMatrix();
 			glPopMatrix();
 
 		glPopMatrix();
@@ -176,55 +189,43 @@ void SampleModel::draw()
 	}
 
 	glPopMatrix();
-
-	//glPushMatrix();
-	//glTranslated(-5,0,-5);
-	//drawBox(10,0.01f,10);
-	//glPopMatrix();
-
-	//// draw the sample model
-	//setAmbientColor(.1f,.1f,.1f);
-	//setDiffuseColor(COLOR_GREEN);
-	//glPushMatrix();
-	//glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
-
-	//	glPushMatrix();
-	//	glTranslated(-1.5, 0, -2);
-	//	glScaled(3, 1, 4);
-	//	drawBox(1,1,1);
-	//	glPopMatrix();
-
-	//	// draw cannon
-	//	glPushMatrix();
-	//	glRotated(VAL(ROTATE), 0.0, 1.0, 0.0);
-	//	glRotated(-90, 1.0, 0.0, 0.0);
-	//	drawCylinder(VAL(HEIGHT), 0.1, 0.1);
-
-	//	glTranslated(0.0, 0.0, VAL(HEIGHT));
-	//	drawCylinder(1, 1.0, 0.9);
-
-	//	glTranslated(0.0, 0.0, 0.5);
-	//	glRotated(90, 1.0, 0.0, 0.0);
-	//	drawCylinder(4, 0.1, 0.2);
-	//	glPopMatrix();
-
-	//glPopMatrix(); 
 }
 
 void SampleModel::animate(){
 	timer++;
 	//move body vertically
+	if ((timer / 90) % 4 == 0)
+		SETVAL(BODY_PX, VAL(BODY_PX) + 0.03);
+	else if ((timer / 90) % 6 == 2)
+		SETVAL(BODY_PX, VAL(BODY_PX) - 0.03);
+
+	//move body horizontally
+	if ((timer / 90) % 4 == 1)
+		SETVAL(BODY_PY, VAL(BODY_PY) + 0.01);
+	else if ((timer / 90) % 4 == 3)
+		SETVAL(BODY_PY, VAL(BODY_PY) - 0.01);
 
 
 	//move body rotationally
+	if ((timer / 90) % 4 == 1)
+		SETVAL(BODY_ROTATION, VAL(BODY_ROTATION) + 0.5);
+	else if ((timer / 90) % 4 == 3)
+		SETVAL(BODY_ROTATION, VAL(BODY_ROTATION) - 0.5);
+	/*if ((timer / 90) % 2 == 0)
+		SETVAL(BODY_ROTATION, VAL(BODY_ROTATION) + 0.5);
+	else
+		SETVAL(BODY_ROTATION, VAL(BODY_ROTATION) - 0.5);*/
 
+	
 	//move neck
 	if ((timer/90)%2==0)
 		SETVAL(NECK_HEIGHT, VAL(NECK_HEIGHT) + 0.01);
 	else
 		SETVAL(NECK_HEIGHT, VAL(NECK_HEIGHT) - 0.01);
 
-	//move oars
+	//move torus and oars
+	if (VAL(OARS_ROTATION)>=360)
+		SETVAL(OARS_ROTATION, 0);
 	SETVAL(OARS_ROTATION, VAL(OARS_ROTATION)+VAL(OARS_SPEED));
 }
 
@@ -245,6 +246,9 @@ int main()
 	controls[BODY_Y] = ModelerControl("BODY Y",0,5,0.1f,1.6);
 	controls[BODY_Z] = ModelerControl("BODY Z",0,5,0.1f,3.9 );
 	controls[BODY_ROTATION] = ModelerControl("BODY ROTATION",0,360,1,0);
+	controls[BODY_PX] = ModelerControl("BODY PX", 0, 5, 0.1f, 0);
+	controls[BODY_PY] = ModelerControl("BODY PY", 0, 5, 0.1f, 0);
+	controls[BODY_PZ] = ModelerControl("BODY PZ", 0, 5, 0.1f, 0);
 
 	//WING
 	controls[UPPER_WING_PX] = ModelerControl("UPPER WING PX", 0.1, 3, 0.1f, 1.3);
@@ -280,8 +284,7 @@ int main()
 
 	//OARS
 	controls[OARS_ROTATION] = ModelerControl("OARS ROTATION", -180, 180, 1, 0);
-	controls[OARS_SPEED] = ModelerControl("OARS SPEED", 0, 10, 1, 1);
-
+	controls[OARS_SPEED] = ModelerControl("OARS SPEED", 0, 30, 1, 15);
 
     ModelerApplication::Instance()->Init(&createSampleModel, controls, NUMCONTROLS);
     return ModelerApplication::Instance()->Run();
