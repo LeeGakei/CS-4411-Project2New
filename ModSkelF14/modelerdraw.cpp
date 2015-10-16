@@ -276,6 +276,79 @@ void drawEllipsoid(double x, double y, double z){
 	}
 }
 
+void drawTorus(double Radius = 50, double TubeRadius = 10){
+	ModelerDrawState *mds = ModelerDrawState::Instance();
+
+	_setupOpenGl();
+
+	if (mds->m_rayFile)
+	{
+		_dump_current_modelview();
+		fprintf(mds->m_rayFile, "scale(%f,%f,%f,Torus {\n", Radius, TubeRadius);
+		_dump_current_material();
+		fprintf(mds->m_rayFile, "}))\n");
+	}
+	else
+	{
+		int Sides = 0;		//the number of parts of the slide
+		int Rings = 0;	//the number of parts of the whole torus
+		switch (mds->m_quality){
+		case HIGH:
+			Sides = 20; Rings = 30; break;
+		case MEDIUM:
+			Sides = 20; Rings = 30; break;
+		case LOW:
+			Sides = 20; Rings = 30; break;
+		case POOR:
+			Sides = 20; Rings = 30; break;
+		}
+
+		{
+			double sideDelta = 2.0 * M_PI / Sides;
+			double ringDelta = 2.0 * M_PI / Rings;
+			double theta = 0;
+			double cosTheta = 1.0;
+			double sinTheta = 0.0;
+
+			double phi, sinPhi, cosPhi;
+			double dist;
+
+			glColor3f(1.00f, 0.0f, 0.0f);
+
+			for (int i = 0; i < Rings; i++)
+			{
+				double theta1 = theta + ringDelta;
+				double cosTheta1 = cos(theta1);
+				double sinTheta1 = sin(theta1);
+
+				glBegin(GL_QUAD_STRIP);
+				phi = 0;
+				for (int j = 0; j <= Sides; j++)
+				{
+					phi = phi + sideDelta;
+					cosPhi = cos(phi);
+					sinPhi = sin(phi);
+					dist = Radius + (TubeRadius * cosPhi);
+
+					glNormal3d(cosTheta * cosPhi, sinTheta * cosPhi, sinPhi);
+					glVertex3d(cosTheta * dist, sinTheta * dist, TubeRadius * sinPhi);
+
+					glNormal3d(cosTheta1 * cosPhi, sinTheta1 * cosPhi, sinPhi);
+					glVertex3d(cosTheta1 * dist, sinTheta1 * dist, TubeRadius * sinPhi);
+				}
+				glEnd();
+				theta = theta1;
+				cosTheta = cosTheta1;
+				sinTheta = sinTheta1;
+
+			}
+		}
+	}
+
+
+
+}
+
 void drawTriangularPrism(double length, double width, double thickness){
 	ModelerDrawState *mds = ModelerDrawState::Instance();
 

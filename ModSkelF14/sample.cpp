@@ -107,12 +107,25 @@ void SampleModel::draw()
 		drawSphere(0.7);
 		drawCylinder(2,0.7,0.5);
 
+			//lower tails and torus
 			glPushMatrix();
 			glTranslated(0, 0, 2);
 			glRotated(VAL(LOWER_TAIL_ROTATION1), 1, 0, 0);
+			
+				//torus
+				glPushMatrix();
+				glRotated(-90, 1, 0, 0);
+				drawTorus(2.5, 0.2);
+				glPopMatrix();
+
+
 			glRotated(VAL(LOWER_TAIL_ROTATION2), 0, 1, 0);
 			drawSphere(0.5);
-			drawCylinder(3, 0.5, 0);
+			drawCylinder(2.5, 0, 0.3);
+			glRotated(120, 0, 1, 0);
+			drawCylinder(2.5, 0, 0.3);
+			glRotated(120, 0, 1, 0);
+			drawCylinder(2.5, 0, 0.3);
 			glPopMatrix();
 
 		glPopMatrix();
@@ -242,10 +255,10 @@ int main()
 	controls[LOWER_WING_ROTATION] = ModelerControl("LOWER WING ROTATION",  -180, 180, 1, 76);
 
 	//TAIL
-	controls[UPPER_TAIL_ROTATION1] = ModelerControl("UPPER_TAIL_ROTATION1", -180, 180, 1, -29);
-	controls[UPPER_TAIL_ROTATION2] = ModelerControl("UPPER_TAIL_ROTATION2", -180, 180, 1, 65);
-	controls[LOWER_TAIL_ROTATION1] = ModelerControl("LOWER_TAIL_ROTATION1", -180, 180, 1, 65);
-	controls[LOWER_TAIL_ROTATION2] = ModelerControl("LOWER_TAIL_ROTATION2", -180, 180, 1, 111);
+	controls[UPPER_TAIL_ROTATION1] = ModelerControl("UPPER_TAIL_ROTATION1", -180, 180, 1, 0);
+	controls[UPPER_TAIL_ROTATION2] = ModelerControl("UPPER_TAIL_ROTATION2", -180, 180, 1, 90);
+	controls[LOWER_TAIL_ROTATION1] = ModelerControl("LOWER_TAIL_ROTATION1", -180, 180, 1, 90);
+	controls[LOWER_TAIL_ROTATION2] = ModelerControl("LOWER_TAIL_ROTATION2", -180, 180, 1, 45);
 
 	//LIGHT
 	controls[LIGHT0_X] = ModelerControl("LIGHT0_X", -5, 5, 1, 4);

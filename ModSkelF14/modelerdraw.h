@@ -82,6 +82,8 @@ void drawSphere(double r);
 
 void drawEllipsoid(double x, double y, double z);
 
+void drawTorus(double Radius, double TubeRadius);
+
 void drawTriangularPrism(double length, double width, double thickness);
 
 // Draw an axis-aligned box from origin to (x,y,z)
