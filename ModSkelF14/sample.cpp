@@ -286,6 +286,7 @@ int main()
 	controls[OARS_ROTATION] = ModelerControl("OARS ROTATION", -180, 180, 1, 0);
 	controls[OARS_SPEED] = ModelerControl("OARS SPEED", 0, 30, 1, 15);
 
+	initializeTexture();
     ModelerApplication::Instance()->Init(&createSampleModel, controls, NUMCONTROLS);
     return ModelerApplication::Instance()->Run();
 }

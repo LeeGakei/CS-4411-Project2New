@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <math.h>
 
+#include "bitmap.h"
+
 // ********************************************************
 // Support functions from previous version of modeler
 // ********************************************************
@@ -223,12 +225,34 @@ void drawSphere(double r)
         case POOR:
             divisions = 8; break;
         }
-        
+
+		//texture
+		//int width = 0; int height = 0;
+		unsigned char *texture = ModelerDrawState::Instance()->ball_texture;
+		int width = ModelerDrawState::Instance()->ball_width;
+		int height = ModelerDrawState::Instance()->ball_height;
+
+		glShadeModel(GL_FLAT);
+		glEnable(GL_DEPTH_TEST);
+		glGenTextures(1, &(ModelerDrawState::Instance()->ball_name));
+		glBindTexture(GL_TEXTURE_2D, ModelerDrawState::Instance()->ball_name);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 2, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+		glEnable(GL_TEXTURE_2D);
+		glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
+		glBindTexture(GL_TEXTURE_2D, ModelerDrawState::Instance()->ball_name);
+
         gluq = gluNewQuadric();
         gluQuadricDrawStyle( gluq, GLU_FILL );
         gluQuadricTexture( gluq, GL_TRUE );
         gluSphere(gluq, r, divisions, divisions);
         gluDeleteQuadric( gluq );
+
+		glDisable(GL_TEXTURE_2D);
     }
 }
 
@@ -376,6 +400,25 @@ void drawTriangularPrism(double length, double width, double thickness){
 		double y = width / 2;
 		double z = thickness / 2;
 
+		unsigned char *texture = ModelerDrawState::Instance()->ball_texture;
+		int width = ModelerDrawState::Instance()->ball_width;
+		int height = ModelerDrawState::Instance()->ball_height;
+
+		glShadeModel(GL_FLAT);
+		glEnable(GL_DEPTH_TEST);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glGenTextures(1, &(ModelerDrawState::Instance()->ball_name));
+		glBindTexture(GL_TEXTURE_2D, ModelerDrawState::Instance()->ball_name);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 2, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+		glEnable(GL_TEXTURE_2D);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+		glBindTexture(GL_TEXTURE_2D, ModelerDrawState::Instance()->ball_name);
+
 		glBegin(GL_QUADS);
 		glNormal3d(-1.0, 0.0, 0.0);
 		glVertex3d(0.0, -z, y); glVertex3d(0.0, z, y);
@@ -404,6 +447,8 @@ void drawTriangularPrism(double length, double width, double thickness){
 		mode we were in. */
 		glPopMatrix();
 		glMatrixMode(savemode);
+
+		glDisable(GL_TEXTURE_2D);
 	}
 }
 
@@ -590,7 +635,20 @@ void drawTriangle( double x1, double y1, double z1,
     }
 }
 
+void initializeTexture(){
+	int width = 0;
+	int height = 0;
+	unsigned char *texture = readBMP("texture.bmp", width, height);
+	ModelerDrawState::Instance()->ball_texture = texture;
+	ModelerDrawState::Instance()->ball_width = width;
+	ModelerDrawState::Instance()->ball_height = height;
+	printf("%d", texture == NULL);
+	printf("%d", ModelerDrawState::Instance()->ball_width);
+	printf("%d", ModelerDrawState::Instance()->ball_height);
 
+
+	printf("initialzation of texture!");
+}
 
 
 

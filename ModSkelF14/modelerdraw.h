@@ -17,6 +17,8 @@ enum DrawModeSetting_t
 enum QualitySetting_t 
 { HIGH, MEDIUM, LOW, POOR, };
 
+
+
 // Ignore this; the ModelerDrawState just keeps 
 // information about the current color, etc, etc.
 class ModelerDrawState
@@ -34,6 +36,9 @@ public:
 	GLfloat m_diffuseColor[4];
 	GLfloat m_specularColor[4];
 	GLfloat m_shininess;
+
+	int ball_width; int ball_height; GLuint ball_name;
+	unsigned char *ball_texture;
 
 private:
 	ModelerDrawState();
@@ -99,5 +104,7 @@ void drawCylinder( double h, double r1, double r2 );
 void drawTriangle( double x1, double y1, double z1,
 			       double x2, double y2, double z2,
 			       double x3, double y3, double z3 );
+
+void initializeTexture();
 
 #endif
