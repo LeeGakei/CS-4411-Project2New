@@ -246,7 +246,7 @@ void ModelerUserInterface::cb_Focus(Fl_Menu_* o, void* v) {
 
 inline void ModelerUserInterface::cb_FrameAll_i(Fl_Menu_*, void*) {
 	m_modelerView->m_camera->setLookAt(Vec3f(0, 0, 0));
-	m_modelerView->m_camera->setDolly(-30);
+	m_modelerView->m_camera->setDolly(-35);
 	m_modelerView->m_camera->setAzimuth(2);
 	m_modelerView->m_camera->setElevation(0.5);
 	m_modelerView->m_camera->setTwist(0.0);

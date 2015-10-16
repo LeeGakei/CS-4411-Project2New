@@ -196,7 +196,7 @@ void SampleModel::animate(){
 	//move body vertically
 	if ((timer / 90) % 4 == 0)
 		SETVAL(BODY_PX, VAL(BODY_PX) + 0.03);
-	else if ((timer / 90) % 6 == 2)
+	else if ((timer / 90) % 4 == 2)
 		SETVAL(BODY_PX, VAL(BODY_PX) - 0.03);
 
 	//move body horizontally
