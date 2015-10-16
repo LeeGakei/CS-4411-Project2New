@@ -294,13 +294,13 @@ void drawTorus(double Radius = 50, double TubeRadius = 10){
 		int Rings = 0;	//the number of parts of the whole torus
 		switch (mds->m_quality){
 		case HIGH:
-			Sides = 20; Rings = 30; break;
+			Sides = 30; Rings = 40; break;
 		case MEDIUM:
 			Sides = 20; Rings = 30; break;
 		case LOW:
-			Sides = 20; Rings = 30; break;
+			Sides = 10; Rings = 20; break;
 		case POOR:
-			Sides = 20; Rings = 30; break;
+			Sides = 5; Rings = 10; break;
 		}
 
 		{
