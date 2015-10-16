@@ -38,7 +38,8 @@ void SampleModel::draw()
     ModelerView::draw();
 
 	//animation
-	this->animate();
+	if (ModelerApplication::Instance()->m_animating)
+		this->animate();
 
 	// draw the floor
 	setAmbientColor(0.1f,0.1f,0.1f);
@@ -198,11 +199,20 @@ void SampleModel::draw()
 }
 
 void SampleModel::animate(){
+	timer++;
 	//move wing
 
+
 	//move tail
+
+	//move neck
+	if ((timer/90)%2==0)
+		SETVAL(NECK_HEIGHT, VAL(NECK_HEIGHT) + 0.001);
+	else
+		SETVAL(NECK_HEIGHT, VAL(NECK_HEIGHT) - 0.001);
+
 	//move oars
-	ModelerApplication::Instance()->SetControlValue(OARS_ROTATION, VAL(OARS_ROTATION)+1);
+	SETVAL(OARS_ROTATION, VAL(OARS_ROTATION)+VAL(OARS_SPEED));
 }
 
 int main()
