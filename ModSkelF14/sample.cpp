@@ -46,7 +46,7 @@ void SampleModel::draw()
 	setDiffuseColor(COLOR_RED);
 
 	glPushMatrix();
-	//glRotated(VAL(BODY_ROTATION), 0.0, -1.0, 1.0);
+	glRotated(VAL(BODY_ROTATION), 0.0, 0.0, 1.0);
 	drawEllipsoid(VAL(BODY_X), VAL(BODY_Y), VAL(BODY_Z));
 
 	//wing
