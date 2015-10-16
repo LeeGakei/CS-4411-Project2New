@@ -38,7 +38,7 @@ void SampleModel::draw()
     ModelerView::draw();
 
 	//animation
-	if (ModelerApplication::Instance()->m_animating)
+	//if (ModelerApplication::Instance()->m_animating)
 		this->animate();
 
 	// draw the floor
@@ -199,17 +199,17 @@ void SampleModel::draw()
 }
 
 void SampleModel::animate(){
-	timer++;
+	//timer++;
 	//move wing
 
 
 	//move tail
 
 	//move neck
-	if ((timer/90)%2==0)
+	/*if ((timer/90)%2==0)
 		SETVAL(NECK_HEIGHT, VAL(NECK_HEIGHT) + 0.001);
 	else
-		SETVAL(NECK_HEIGHT, VAL(NECK_HEIGHT) - 0.001);
+		SETVAL(NECK_HEIGHT, VAL(NECK_HEIGHT) - 0.001);*/
 
 	//move oars
 	SETVAL(OARS_ROTATION, VAL(OARS_ROTATION)+VAL(OARS_SPEED));
