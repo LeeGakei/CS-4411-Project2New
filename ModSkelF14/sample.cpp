@@ -244,7 +244,7 @@ int main()
 	controls[BODY_X] = ModelerControl("BODY X",0,5,0.1f,1.1);
 	controls[BODY_Y] = ModelerControl("BODY Y",0,5,0.1f,1.6);
 	controls[BODY_Z] = ModelerControl("BODY Z",0,5,0.1f,3.9 );
-	controls[BODY_ROTATION] = ModelerControl("BODY ROTATION",0,360,1,65);
+	controls[BODY_ROTATION] = ModelerControl("BODY ROTATION",0,360,1,0);
 
 	//WING
 	controls[UPPER_WING_PX] = ModelerControl("UPPER WING PX", 0.1, 3, 0.1f, 1.3);
